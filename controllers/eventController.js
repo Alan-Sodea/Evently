@@ -66,8 +66,8 @@ exports.readMe = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-    const { id, email, title, urlImg, desc, date } = req.body;
-    
+    const { id, email, title, urlImg, desc, date, certified } = req.query;
+
     try {
 
         let user = await User.findOne({ where: { email } });
@@ -88,16 +88,19 @@ exports.update = async (req, res) => {
         if (urlImg) event.urlImg = urlImg;
         if (desc) event.desc = desc;
         if (date) event.date = date;
+        if (certified) event.certified = certified;
         await event.save();
         res.json(event);
 
     } catch (error) {
+        console.log(error);
         res.status(400).json({ error: 'Reading failed' });
     }
 };
 
 exports.remove = async (req, res) => {
-    const { id, email } = req.body;
+    const { id, email } = req.query;
+    // console.log(req)
     try {
         const user = await User.findOne({ where: { email } });
         if (!user)return res.status(401).json({ error: 'Unknown User' });
@@ -116,6 +119,7 @@ exports.remove = async (req, res) => {
         await event.destroy();
         return res.status(204).json({message : "Event deleted successfully"});
     } catch (error) {
+        console.error(error)
         res.status(400).json({ error: 'Deleting failed' });
     }
 }

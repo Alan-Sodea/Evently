@@ -28,6 +28,12 @@ const Event = sequelize.define('Event', {
     {
         type : DataTypes.STRING,
         allowNull: false,
+    },
+    certified:
+    {
+        type : DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
     }
 });
 

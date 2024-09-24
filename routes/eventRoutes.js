@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/', create);
 router.delete('/', remove);
-router.put('/', update);
+router.get('/changes', update);
 router.get('/', read);
 router.get('/me', readMe);
 router.get('/list', readAll);
