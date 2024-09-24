@@ -33,7 +33,7 @@ export default function Profile() {
             <div className="text-2xl font-bold w-full">MY PROFILE</div>
 
             <div className="outline-1 w-96 max-w-full py-5 shadow-lg rounded-md outline-double h-fit flex flex-col gap-10 justify-between items-center">
-                <div className="outline-double w-5/12 aspect-square rounded-full bg-accent text-action text-7xl flex items-center justify-center">A</div>
+                <div className="outline-double w-5/12 aspect-square rounded-full bg-accent text-action text-7xl flex items-center justify-center">{username[0].toUpperCase()}</div>
 
                 <div>
                     <div className="h-10 flex items-center text-lg w-96 px-10 justify-between"><label className="font-bold">Email</label><input className="outline-dotted outline-1 pl-2" value={email} type="text" disabled /></div>

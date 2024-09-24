@@ -84,13 +84,17 @@ function RegisterEvent() {
 
                     </div>
                     <div className="w-1/2 aspect-square p-10">
-                        <div className="outline-1 outline-dashed h-full"></div>
+                        <div className="outline-1 outline-dashed h-full">
+                            <div className="bg-gray-200 h-full aspect-square bg-center bg-contain" style={{ backgroundImage: "url('./event.jpg')" }}></div>
+
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div id="message" className={"fixed m-4 bottom-0 right-0 h-12  min-w-56 flex bg-red-500 text-white font-[sans-serif] z-50 px-3 justify-between items-center gap-3"} style={{ transition: "all .3s linear", transform: String(((showedMessage) && "none") || (!showedMessage) && "translateY(calc(100% + 3rem))") }} ><span id="firstChild">Invalid values</span><span className={"relative flex z-20 bg-red-700 px-2  items-center text-sm rounded-full h-fit aspect-square cursor-pointer hover:bg-red-800"} onClick={(evt) => { theshow.set(false) }}>X</span>
-                <div className="absolute z-30 bg-black bottom-0 left-0 h-1" style={{ width: "100%" }} ></div>
+                <div className="absolute z-30 bg-black bottom-0 left-0 h-1" style={{ width: "100%" }} >
+                </div>
             </div>
         </div>
 
@@ -113,12 +117,12 @@ export default function NavBar() {
                 <div className="flex h-ull items-center text-4xl font-serif font-bold">E<span className="text-action">v</span>e<span className="text-action">n</span>t<span className="text-action">l</span>y</div>
             </div>
             <div className="h-full py-0.5 flex flex-end gap-1 outline-dotted outline-action outline-1 overflow-hidden" style={{ transition: "all ease-in-out 1s", width: String(expanded && "2rem" || (!expanded) && "24rem") }}>
-                <div className="ml-1 aspect-square my-0.5 bg-center bg-no-repeat bg-contain cursor-pointer" style={{ backgroundImage: "url('./../public/search.svg')" }} onClick={() => setExpanded(!expanded)}></div>
+                <div className="ml-1 aspect-square my-0.5 bg-center bg-no-repeat bg-contain cursor-pointer" style={{ backgroundImage: "url('./search.svg')" }} onClick={() => setExpanded(!expanded)}></div>
                 <input type="text" className="outline-none h-full pl-2 w-96 dnone font-garamond font-bold" value={fil.get()} onChange={(evt) => { evt.preventDefault(); fil.set(evt.target.value) }} />
             </div>
             <div className="flex gap-5 h-full">
                 <div className="outline-double rounded-sm h-full aspect-square bg-action-light text-action ouline-double outline-1 flex justify-center items-center font-bold cursor-pointer" onClick={() => theshow.set(true)}><span className="scale-150">+</span></div>
-                <div className="text-xl outline-double rounded-full h-full aspect-square bg-action-light text-action ouline-double outline-1 flex justify-center items-center cursor-pointer" onClick={() => { setProfileCard(true) }}>A</div>
+                <div className="text-xl outline-double rounded-full h-full aspect-square bg-action-light text-action ouline-double outline-1 flex justify-center items-center cursor-pointer" onClick={() => { setProfileCard(true) }}>{mystore.user.name.get()[0].toUpperCase()}</div>
                 <div className={"placeholder z-50 fixed gap-3 w-48 aspect-square rounded-md bg-action-light py-5 flex items-center flex-col justify-between shadow-lg top-20 right-5 transition-all " + String((profileCard && "translate-x-0") || (!profileCard && "translate-x-96"))}>
                     <div className="outline outline-2 outline-white w-1/2 aspect-square bg-blue-700 rounded-full flex items-center justify-center text-white font-bold font-helvetica"><p className="scale-150 text-4xl">{mystore.user.name.get()[0].toUpperCase()}</p></div>
                     <div className="text-xl text-black font-bold font-helvetica">@{mystore.user.name.get()}</div>

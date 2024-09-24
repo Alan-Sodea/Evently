@@ -16,9 +16,11 @@ interface PropsEventCard {
     urlImg: string,
     id: number,
     userId: number,
+    certified: boolean,
+    onClick: any,
 }
 
-function EventCard({ onClick, title, date, desc, urlImg, id, userId }: PropsEventCard) {
+function EventCard({ onClick, title, date, desc, urlImg, id, userId, certified }: PropsEventCard) {
 
     const [islogged, setIslogged] = useState(true);
     const mystore = useHookstate(store);
@@ -78,17 +80,22 @@ function EventCard({ onClick, title, date, desc, urlImg, id, userId }: PropsEven
 
 
     return <>
-        <div className="rounded-md p-3 flex flex-col gap-3 shadow-2xl outline-dotted outline-1 outline-gray-600 h-fit">
+        <div className="relative rounded-md p-3 flex flex-col gap-3 shadow-2xl outline-dotted outline-1 outline-gray-600 h-fit">
             {/* <div className="theme text-sm px-2 py-1 w-fit rounded-md text-action font-medium bg-action-light">Business</div> */}
 
+            {
+                certified
+                    ? <div className="absolute w-4 aspect-square bg-action m-2 right-0 top-0 rounded-full"></div>
+                    : <></>
+            }
             <div className="flex flex-col">
                 <div className="text-black font-semibold font-helvetica">{title}</div>
-                {/* <div className="max-h-14 overflow-hidden text-gray-600 text-sm">Join us and grow your network to improye your wealth</div> */}
                 <div className="max-h-14 h-fit overflow-hidden text-gray-600 text-sm">{desc}</div>
             </div>
-            <div className="img placeholder  cursor-pointer h-24 rounded-md bg-center bg-cover" style={{ backgroundImage: `url('${urlImg}')` }} onClick={onClick}></div>
+            <div className={"img placeholder h-24 rounded-md bg-center bg-cover" + String(((islogged || (userId == mystore.user.id.get())) && " cursor-pointer") || (!(islogged || (userId == mystore.user.id.get())) && " cursor-not-allowed"))} style={{ backgroundImage: `url('${urlImg}')` }} onClick={() => {
+                if (islogged || (userId == mystore.user.id.get())) { onClick() } else { }
+            }}></div>
             <div className="flex justify-between h-fit">
-                {/* <div className="theme text-sm px-2 py-1 w-fit rounded-full outline-1 outline-double text-action h-fit font-medium bg-action-light">A</div> */}
                 <div className="flex gap-2 justify-between w-full py-1.5" >
                     <div className="bg-gray-200 h-full aspect-square bg-center bg-contain" style={{ backgroundImage: "url('./../public/calendar.png')" }}></div>
                     <div className="h-full text-gray-600 text-xs">{date}</div>
@@ -246,8 +253,8 @@ export default function Home({ ishome }: PropsHome) {
 
 
                     which == "Soon"
-                        ? eventList.filter((event) => (event.date.slice(event.date.length - 7, event.date.length) == getCurrentDate().slice(event.date.length - 7, event.date.length))).filter((elt) => { return elt.title.split(" ").join("").toLowerCase().indexOf(fil.get().split(" ").join("").toLowerCase()) != -1 }).map((event) => <EventCard userId={event.userId} id={event.id} key={event.id} title={event.title} date={event.date} urlImg={event.urlImg} desc={event.desc} onClick={() => { navigate("/event"); mystore.theevent.set(event) }} />)
-                        : eventList.filter((elt) => { return elt.title.split(" ").join("").toLowerCase().indexOf(fil.get().split(" ").join("").toLowerCase()) != -1 }).map((event) => <EventCard userId={event.userId} key={event.id} id={event.id} title={event.title} date={event.date} urlImg={event.urlImg} desc={event.desc} onClick={() => { navigate("/event"); mystore.theevent.set(event) }} />)
+                        ? eventList.filter((event) => (event.date.slice(event.date.length - 7, event.date.length) == getCurrentDate().slice(event.date.length - 7, event.date.length))).filter((elt) => { return ((elt.title.split(" ").join("").toLowerCase().indexOf(fil.get().split(" ").join("").toLowerCase()) != -1) || (elt.date.indexOf(fil.get()) != -1)) }).map((event) => <EventCard certified={event.certified} userId={event.userId} id={event.id} key={event.id} title={event.title} date={event.date} urlImg={event.urlImg} desc={event.desc} onClick={() => { navigate("/event"); mystore.theevent.set(event) }} />)
+                        : eventList.filter((elt) => { return ((elt.title.split(" ").join("").toLowerCase().indexOf(fil.get().split(" ").join("").toLowerCase()) != -1) || (elt.date.indexOf(fil.get()) != -1)) }).map((event) => <EventCard certified={event.certified} userId={event.userId} key={event.id} id={event.id} title={event.title} date={event.date} urlImg={event.urlImg} desc={event.desc} onClick={() => { navigate("/event"); mystore.theevent.set(event) }} />)
                 }
             </div>
         </div >

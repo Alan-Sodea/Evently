@@ -4,11 +4,11 @@ import store from "../store/store";
 import axios from "axios";
 import API_URL from "../store/api";
 import { Events, registereventList } from "../store/datas";
+import { useNavigate } from "react-router-dom";
 
 
 
 export default function Calendar() {
-    const myregList = useHookstate(registereventList);
     const [info, setInfo] = useState(false);
     const [msg, setMsg] = useState("");
     const [month, setmonth] = useState("");
@@ -16,6 +16,10 @@ export default function Calendar() {
     const [number, setnumber] = useState(0);
     let [eventList, setEventList] = useState([]);
     let [myeventList, setMyEventList] = useState([]);
+
+    let navigate = useNavigate();
+
+    const myregList = useHookstate(registereventList);
     const mystore = useHookstate(store);
     const registeredEvents = useHookstate(Events);
 
@@ -137,7 +141,7 @@ export default function Calendar() {
             <div className="flex justify-between">
                 <div className="text-2xl font-bold">MY CALENDAR</div>
 
-                <div className={"placeholder w-fit px-5 py-2 rounded-sm shadow-xl text-white bg-action font-bold  " + String((info && "block") || (!info && "hidden"))}>{msg}</div>
+                <div className={"placeholder w-fit px-5 py-2 rounded-sm shadow-xl cursor-pointer text-white bg-action font-bold  " + String((info && "block") || (!info && "hidden"))} onClick={() => { mystore.theevent.set(eventList.filter((elt) => elt.title == msg)[0]); navigate("/event") }}>{msg}</div>
 
             </div>
 
